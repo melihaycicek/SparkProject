@@ -40,6 +40,25 @@
         <artifactId>spring-boot-autoconfigure</artifactId>
         <version>2.5.6</version> <!-- Java 8 ile uyumlu bir Spring Boot sürümü -->
     </dependency>
+
+
+    <dependency>
+        <groupId>org.apache.spark</groupId>
+        <artifactId>spark-streaming_2.11</artifactId>
+        <version>2.3.0</version>
+    </dependency>
+
+    <!-- Spark Kafka Bağımlılığı -->
+    <dependency>
+        <groupId>org.apache.spark</groupId>
+        <artifactId>spark-sql-kafka-0-10_2.11</artifactId>
+        <version>2.3.0</version>
+    </dependency>
+    <dependency>
+        <groupId>org.apache.spark</groupId>
+        <artifactId>spark-sql_2.11</artifactId>
+        <version>2.3.5-SNAPSHOT</version>
+    </dependency>
 </dependencies>
 
 <build>

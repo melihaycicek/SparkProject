@@ -3,36 +3,37 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.streaming.StreamingQuery;
 
-public class SparkController {
+public class SparkStream {
     public static void main(String[] args) throws Exception {
-
+        // SparkSession oluştur
         SparkSession spark = SparkSession.builder()
-                .appName("SparkController")
-                .master("local") // lokal
-                .config("spark.hadoop.fs.defaultFS", "hdfs://sparkprojectdocument-HdfsServerNamenode-1:8020")
+                .appName("KafkaHdfsWriter")
                 .getOrCreate();
 
+        // directory
         Dataset<Row> df = spark.readStream()
                 .format("text")
-                .load("file:///C:/Users/melih.aycicek/Documents/KafeinProjectDocuments/Intellimap/SparkProjectDocument/Target");
+                .load("C:\\Users\\melih.aycicek\\Documents\\KafeinProjectDocuments\\Intellimap\\SparkProjectDocument\\Target");
 
-
-      /*  // Kafka'ya
+        // Kafka'ya yazmak için query
+        // "localhost:9092" ve "kafkaTopic" değerlerini kendi Kafka yapılandırmanıza göre güncelleyin
         StreamingQuery kafkaQuery = df.writeStream()
                 .format("kafka")
                 .option("kafka.bootstrap.servers", "localhost:9092")
                 .option("topic", "kafkaTopic")
                 .option("checkpointLocation", "hdfs://HdfsServerNamenode:8020/appdata/checkpoint")
                 .start();
-*/
-        // HDFS'ye
+
+        // HDFS'ye yazmak için query
+        // "hdfs://namenode:8020/user/hdfs/outputPath" kısmını HDFS yapılandırmanıza göre güncelleyin
         StreamingQuery hdfsQuery = df.writeStream()
                 .format("text")
-                .option("path", "hdfs://sparkprojectdocument-HdfsServerNamenode-1:8020/appdata/outputdirectory") // HDFS yolu
-                .option("checkpointLocation", "hdfs://sparkprojectdocument-HdfsServerNamenode-1:8020/appdata/checkpoint") //
+                .option("path", "hdfs://HdfsServerNamenode:8020/appdata/outputdirectory")
+                .option("checkpointLocation", "hdfs://HdfsServerNamenode:8020/appdata/checkpoint")
                 .start();
 
-     //   kafkaQuery.awaitTermination();
+        // Her iki query'nin bitmesini bekleyin
+        kafkaQuery.awaitTermination();
         hdfsQuery.awaitTermination();
     }
 }
