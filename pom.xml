@@ -26,11 +26,6 @@
         <version>5.3.10</version>
     </dependency>
     <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>2.12.5</version> <!-- Bu versiyon Spring Web 5.3.10 ile uyumludur -->
-    </dependency>
-    <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
         <version>1.18.22</version>
@@ -40,8 +35,6 @@
         <artifactId>spring-boot-autoconfigure</artifactId>
         <version>2.5.6</version> <!-- Java 8 ile uyumlu bir Spring Boot sürümü -->
     </dependency>
-
-
     <dependency>
         <groupId>org.apache.spark</groupId>
         <artifactId>spark-streaming_2.11</artifactId>
@@ -51,16 +44,10 @@
     <!-- Spark Kafka Bağımlılığı -->
     <dependency>
         <groupId>org.apache.spark</groupId>
-        <artifactId>spark-sql-kafka-0-10_2.11</artifactId>
-        <version>2.3.0</version>
-    </dependency>
-    <dependency>
-        <groupId>org.apache.spark</groupId>
         <artifactId>spark-sql_2.11</artifactId>
-        <version>2.3.5-SNAPSHOT</version>
+        <version>2.3.0</version> <!-- 2.3.5-SNAPSHOT yerine 2.3.0 kullanın -->
     </dependency>
 </dependencies>
-
 <build>
     <plugins>
         <plugin>

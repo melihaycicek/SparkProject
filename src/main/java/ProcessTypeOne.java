@@ -3,7 +3,7 @@ import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.ForeachWriter;
-import redis.clients.jedis.Jedis;
+//import redis.clients.jedis.Jedis;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.conf.Configuration;
@@ -67,8 +67,8 @@ public class ProcessTypeOne {
                 String line = row.getString(0);
                 String[] fields = line.split(",", -1);
                 try {
-                    accumulatedLines.append(newline).append("\n");
-                    logger.fine("Processed line: " + newline);
+                 //   accumulatedLines.append(newline).append("\n");
+                  //  logger.fine("Processed line: " + newline);
                 } catch (Exception e) {
                     logger.severe("Error in processing line: " + e.getMessage());
                 }
@@ -92,7 +92,7 @@ public class ProcessTypeOne {
                 }
 
                 logger.info("Closing connection");
-                redis.close();
+               // redis.close();
             }
         }).start().awaitTermination();
     }

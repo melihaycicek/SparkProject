@@ -44,18 +44,14 @@ public class FileBearer {
     private void processFiles() {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(sourceDir))) {
             for (Path path : stream) {
-                try {
-                    if (path.toString().contains("Type1")) {
-                        this.fileType = fileType.Type1;
-                        Files.move(path, Paths.get(targetDirForTypeOne, path.getFileName().toString()));
-                        logger.info("Moved a call file: {}", path);
-                    } else if (path.toString().contains("Type2")) {
-                        this.fileType = fileType.Type2;
-                        Files.move(path, Paths.get(targetDirForTypeTwo, path.getFileName().toString()));
-                        logger.info("Moved an SMS file: {}", path);
-                    }
-                } catch (IOException e) {
-                    logger.error("Error processing file: {}", path, e);
+                if (path.toString().contains("Type1")) {
+                 //   this.fileType = fileType.Type1;
+                  //  Files.move(path, Paths.get(targetDirForTypeOne, path.getFileName().toString()));
+                    logger.info("Moved a call file: {}", path);
+                } else if (path.toString().contains("Type2")) {
+                 //   this.fileType = fileType.Type2;
+                  //  Files.move(path, Paths.get(targetDirForTypeTwo, path.getFileName().toString()));
+                    logger.info("Moved an SMS file: {}", path);
                 }
             }
         } catch (IOException e) {

@@ -20,19 +20,34 @@ public class SparkMain {
 
         // String mainDirCall = args.length > 0 ? args[0] : "/";
 
-        String propertiesPath = "SparkConfiguration.properties"; //
+        String propertiesPath = "SparkProject.properties"; // Düzeltildi
+        //
+        Properties properties = new Properties();
+        try (InputStream input = SparkMain.class.getResourceAsStream("/SparkProject.properties")) {
+            if (input == null) {
+                System.out.println("Sorry, unable to find SparkProject.properties");
+                return;
+            }
+            // Dosyadan özellikleri yükle
+            properties.load(input);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+
+        /*
         Properties properties = new Properties();
         try (InputStream input = new FileInputStream(propertiesPath)) {
             properties.load(input);
             // Properties dosyasını kullan
         } catch (IOException ex) {
             ex.printStackTrace();
-        }
+        }*/
         String mainDirCall = properties.getProperty("main.dir");
-        String redisHost = properties.getProperty("redis.host");
-        int redisPort = Integer.parseInt(properties.getProperty("redis.port"));
-        int redisTimeout = Integer.parseInt(properties.getProperty("redis.timeout"));
-        String redisPassword = properties.getProperty("redis.password");
+        //String redisHost = properties.getProperty("redis.host");
+        //int redisPort = Integer.parseInt(properties.getProperty("redis.port"));
+        //int redisTimeout = Integer.parseInt(properties.getProperty("redis.timeout"));
+        //String redisPassword = properties.getProperty("redis.password");
         String hdfsPath = properties.getProperty("hdfs.path");
         String mainDirSms = properties.getProperty("main.dir.sms");
         System.out.println("Main Directory: " + mainDirCall);
@@ -53,7 +68,9 @@ public class SparkMain {
             System.out.println("Directory already exists: " + mainDirCall);
         }
 
-        SparkConf conf = new SparkConf().setMaster(SystemProperties.getProperty("spark.master"))
+// Özellik dosyasında spark.master=local[*] gibi bir değer olmalı
+        String sparkMasterUrl = properties.getProperty("spark.master", "local[*]"); // varsayılan değer olarak local[*] kullanılıyor
+        SparkConf conf = new SparkConf().setMaster(sparkMasterUrl)
                 .setAppName("Spark Kafka Reader")
                 .set("spark.sql.crossJoin.enabled", "true")
                 .set("spark.executor.instances", "2");
@@ -72,7 +89,7 @@ public class SparkMain {
         //System.setProperty("java.security.krb5.conf", SystemProperties.getProperty("krb.krb5.config"));
 
         try {
-            ProcessTypeOne.process(spark, mainDirCall, redisHost, redisPort, redisPassword,redisTimeout,hdfsPath);
+            ProcessTypeTwo.process(spark, mainDirCall,hdfsPath);
 
         } catch (Exception e) {
             e.printStackTrace();
